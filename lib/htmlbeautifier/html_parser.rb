@@ -4,7 +4,7 @@ require "htmlbeautifier/parser"
 
 module HtmlBeautifier
   class HtmlParser < Parser
-    ELEMENT_CONTENT = %r{ (?:<%.*?%>|[^>])* }mx
+    ELEMENT_CONTENT = %r{ (?:<%.*?%>|data-action\s*=\s*"(?:[^"]*?->[^"]*?)"|[^>])* }mx
     HTML_VOID_ELEMENTS = %r{(?:
       area | base | br | col | command | embed | hr | img | input | keygen |
       link | meta | param | source | track | wbr
@@ -44,7 +44,7 @@ module HtmlBeautifier
         :open_block_element],
       [%r{</#{ELEMENT_CONTENT}>}om,
         :close_element],
-      [%r{<#{ELEMENT_CONTENT}[^/]>}om,
+      [%r{<#{ELEMENT_CONTENT}[^/]*?>}om,
         :open_element],
       [%r{<[\w\-]+(?: #{ELEMENT_CONTENT})?/>}om,
         :standalone_element],

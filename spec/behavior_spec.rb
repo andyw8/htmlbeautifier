@@ -623,6 +623,22 @@ describe HtmlBeautifier do
     expect(described_class.beautify(source)).to eq(expected)
   end
 
+  it "does not break for > within an attribute value" do
+    source = code <<~HTML
+      <button data-action="click->hello#greet"
+              type="button">
+        Greet
+      </button>
+    HTML
+    expected = code <<~HTML
+      <button data-action="click->hello#greet"
+              type="button">
+        Greet
+      </button>
+    HTML
+    expect(described_class.beautify(source)).to eq(expected)
+  end
+
   context "when keep_blank_lines is 0" do
     it "removes all blank lines" do
       source = code <<~HTML
